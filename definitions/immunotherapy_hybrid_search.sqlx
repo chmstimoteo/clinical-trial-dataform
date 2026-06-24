@@ -1,0 +1,29 @@
+config {
+  type: "table",
+  description: "Hybrid semantic and keyword search for MK-3475 immunotherapy",
+  assertions: {
+    rowConditions: ["base.StudyTitle IS NOT NULL"]
+  }
+}
+
+-- Perform a hybrid semantic and keyword search looking for 'Cancer treated by MK-3475'
+-- filtering for the specific drug keyword 'MK-3475' in the study description or title.
+
+SELECT
+  *
+FROM
+  VECTOR_SEARCH(
+    (
+      SELECT
+        *
+      FROM
+        ${ref("ClinicalTrialMasterData_flattened")}
+      WHERE
+        CONTAINS_SUBSTR(StudyTitle, 'MK-3475')
+        OR CONTAINS_SUBSTR(semantic_text, 'MK-3475')
+    ),
+    "embedding",
+    query_value => AI.EMBED("Cancer treated by MK-3475", connection_id => "meridian-dev-455515.us.cloud_ai_resources", endpoint => "text-embedding-005").result,
+    top_k => 10,
+    distance_type => "COSINE"
+  )

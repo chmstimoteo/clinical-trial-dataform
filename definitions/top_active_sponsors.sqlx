@@ -1,0 +1,26 @@
+config {
+  type: "table",
+  description: "Top 10 active clinical trial sponsors",
+  assertions: {
+    rowConditions: [
+      "sponsor IS NOT NULL",
+      "trial_count IS NOT NULL"
+    ]
+  }
+}
+
+-- Group the master dataset to count active, completed, ongoing, or recruiting studies 
+-- per sponsoring pharmaceutical company, limit to top 10.
+
+SELECT
+  Sponsor AS sponsor,
+  COUNT(*) AS trial_count
+FROM
+  ${ref("ClinicalTrialMasterData_embedded2")}
+WHERE
+  Trial_Status IN ('Active', 'Completed', 'Completed (Primary Phase)', 'Ongoing', 'Recruiting')
+GROUP BY
+  Sponsor
+ORDER BY
+  trial_count DESC
+LIMIT 10

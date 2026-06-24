@@ -1,0 +1,20 @@
+config {
+  type: "table",
+  description: "Sum of targeted patient enrollment for Phase 3 trials",
+  assertions: {
+    rowConditions: ["total_targeted_enrollment IS NOT NULL"]
+  }
+}
+
+-- Calculate the sum of targeted patient enrollment across late-stage clinical trials (Phase 3).
+
+SELECT
+  SUM(Targeted_Enrollment) AS total_targeted_enrollment
+FROM
+  ${ref("ClinicalTrialMasterData_embedded2")}
+WHERE
+  Phase LIKE '%Phase III%'
+  OR Phase LIKE '%Phase 3%'
+  OR Phase LIKE '%PHASE3%'
+  OR Phase LIKE '%Phase 4%'
+  OR Phase LIKE '%PHASE4%'

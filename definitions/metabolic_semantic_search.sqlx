@@ -1,0 +1,21 @@
+config {
+  type: "table",
+  description: "Semantic search for metabolic diseases",
+  assertions: {
+    rowConditions: ["base.StudyTitle IS NOT NULL"]
+  }
+}
+
+-- Perform a semantic search on ClinicalTrialMasterData_embedded searching for 'Metabolic diseases'
+-- with a top_k limit of 10.
+
+SELECT
+  *
+FROM
+  VECTOR_SEARCH(
+    TABLE ${ref("ClinicalTrialMasterData_flattened")},
+    "embedding",
+    query_value => AI.EMBED("Metabolic diseases", connection_id => "meridian-dev-455515.us.cloud_ai_resources", endpoint => "text-embedding-005").result,
+    top_k => 10,
+    distance_type => "COSINE"
+  )

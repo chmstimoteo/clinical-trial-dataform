@@ -1,0 +1,21 @@
+config {
+  type: "table",
+  description: "Semantic search for cancer studies treated by MK-3475",
+  assertions: {
+    rowConditions: ["base.StudyTitle IS NOT NULL"]
+  }
+}
+
+-- Perform a semantic search looking for study titles similar to 'Cancer treated by MK-3475'
+-- using the ClinicalTrialMasterData_embedded table.
+
+SELECT
+  *
+FROM
+  VECTOR_SEARCH(
+    TABLE ${ref("ClinicalTrialMasterData_flattened")},
+    "embedding",
+    query_value => AI.EMBED("Cancer treated by MK-3475", connection_id => "meridian-dev-455515.us.cloud_ai_resources", endpoint => "text-embedding-005").result,
+    top_k => 10,
+    distance_type => "COSINE"
+  )

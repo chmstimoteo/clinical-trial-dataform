@@ -1,0 +1,12 @@
+config {
+  type: "table",
+  description: "Flattened table of ClinicalTrialMasterData_embedded for vector search"
+}
+
+SELECT
+  *,
+  ClinicalTrialMasterData_embedded.result AS embedding
+FROM
+  ${ref("ClinicalTrialMasterData_embedded2")}
+WHERE
+  ARRAY_LENGTH(ClinicalTrialMasterData_embedded.result) = 768

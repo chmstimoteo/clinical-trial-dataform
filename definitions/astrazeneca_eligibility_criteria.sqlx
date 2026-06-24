@@ -1,0 +1,24 @@
+config {
+  type: "table",
+  description: "AstraZeneca clinical study metadata and eligibility criteria",
+  assertions: {
+    rowConditions: [
+      "title IS NOT NULL",
+      "eligibility_criteria IS NOT NULL"
+    ]
+  }
+}
+
+-- Extract clinical study titles, drug sponsors, and criteria lines for trials matching AstraZeneca.
+
+SELECT
+  StudyTitle AS title,
+  Sponsor AS sponsor,
+  criteria_text AS eligibility_criteria
+FROM
+  ${ref("ClinicalTrialMasterData_embedded2")}
+WHERE
+  Sponsor = 'AstraZeneca'
+  AND StudyTitle IS NOT NULL
+  AND criteria_text IS NOT NULL
+

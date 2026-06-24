@@ -1,0 +1,5 @@
+dataformCoreVersion: 3.0.60
+defaultProject: meridian-dev-455515
+defaultLocation: us
+defaultDataset: joe_demo_test
+defaultAssertionDataset: dataform_assertions

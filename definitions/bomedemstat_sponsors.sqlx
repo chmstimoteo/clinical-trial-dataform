@@ -1,0 +1,27 @@
+config {
+  type: "table",
+  description: "Graph query for trials testing Bomedemstat and their sponsors",
+  assertions: {
+    rowConditions: [
+      "trial_title IS NOT NULL",
+      "sponsor_name IS NOT NULL"
+    ]
+  }
+}
+
+-- Create a GQL query using GRAPH_TABLE over clinical_trial_graph 
+-- that matches trials testing the drug Bomedemstat and extracts their sponsoring companies.
+
+SELECT
+  *
+FROM
+  GRAPH_TABLE(
+    ${ref("clinical_trial_graph")}
+    MATCH (t:Trial)-[:TestsDrug]->(d:Drug {drug_name: 'Bomedemstat'}),
+          (t)-[:SponsoredBy]->(s:Sponsor)
+    COLUMNS (
+      t.StudyTitle AS trial_title,
+      d.drug_name AS drug_name,
+      s.sponsor_name AS sponsor_name
+    )
+  )

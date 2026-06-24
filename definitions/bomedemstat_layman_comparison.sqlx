@@ -1,0 +1,68 @@
+config {
+  type: "table",
+  description: "AI-generated layman comparison for metabolic trials and drugs",
+  assertions: {
+    rowConditions: [
+      "trial_title IS NOT NULL",
+      "layman_insight IS NOT NULL"
+    ]
+  }
+}
+
+-- Step 1: Identify metabolic trials using vector search
+WITH metabolic_trials AS (
+  SELECT
+    base.NCT_Number AS trial_id,
+    base.StudyTitle AS trial_title
+  FROM
+    VECTOR_SEARCH(
+      TABLE ${ref("ClinicalTrialMasterData_flattened")},
+      "embedding",
+      query_value => AI.EMBED("Metabolic diseases", connection_id => "meridian-dev-455515.us.cloud_ai_resources", endpoint => "text-embedding-005").result,
+      top_k => 5,
+      distance_type => "COSINE"
+    )
+),
+
+-- Step 2: Use graph paths to extract drugs tested in those trials
+trial_drugs AS (
+  SELECT
+    *
+FROM
+  GRAPH_TABLE(
+    ${ref("clinical_trial_graph")}
+    MATCH (t:Trial)-[:TestsDrug]->(d:Drug)
+    COLUMNS (
+      t.NCT_Number AS trial_id,
+      d.drug_name AS drug_name
+    )
+  )
+  WHERE trial_id IN (SELECT trial_id FROM metabolic_trials)
+),
+
+-- Step 3: Combine data and prepare prompt for AI
+combined_data AS (
+  SELECT
+    mt.trial_title,
+    ARRAY_AGG(td.drug_name) AS drugs
+  FROM
+    metabolic_trials mt
+  JOIN
+    trial_drugs td ON mt.trial_id = td.trial_id
+  GROUP BY
+    mt.trial_title
+)
+
+-- Step 4: Trigger AI.GENERATE to generate layman insights
+SELECT
+  trial_title,
+  drugs,
+  AI.GENERATE(
+    prompt => FORMAT("Synthesize a layman comparison for the clinical trial '%s' which tests the following drugs: %s. Explain the purpose and potential impact.", 
+               trial_title, 
+               ARRAY_TO_STRING(drugs, ", ")),
+    connection_id => "meridian-dev-455515.us.cloud_ai_resources",
+    endpoint => "gemini-2.5-flash"
+  ) AS layman_insight
+FROM
+  combined_data

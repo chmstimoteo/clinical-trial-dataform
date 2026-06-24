@@ -1,0 +1,29 @@
+config {
+  type: "table",
+  description: "AstraZeneca hybrid search for chronic diseases",
+  assertions: {
+    rowConditions: ["base.study_name IS NOT NULL"]
+  }
+}
+
+-- Run a vector search over the ClinicalTrialChunks table using a 768-dimension query embedding,
+-- filtering the lexical search column 'sponsor' for 'AstraZeneca' 
+-- and locating studies related to chronic diseases.
+
+SELECT
+  *
+FROM
+  VECTOR_SEARCH(
+    (
+      SELECT
+        *
+      FROM
+        ${ref("ClinicalTrialChunks")}
+      WHERE
+        sponsor = 'AstraZeneca'
+    ),
+    "embedding",
+    query_value => AI.EMBED("chronic diseases", connection_id => "meridian-dev-455515.us.cloud_ai_resources", endpoint => "text-embedding-005").result,
+    top_k => 10,
+    distance_type => "COSINE"
+  )

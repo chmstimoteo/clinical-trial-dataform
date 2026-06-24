@@ -1,0 +1,28 @@
+config {
+  type: "table",
+  description: "Multi-hop graph traversal for drug repurposing",
+  assertions: {
+    rowConditions: [
+      "compound_name IS NOT NULL",
+      "phase3_trial_title IS NOT NULL"
+    ]
+  }
+}
+
+-- Traverse clinical_trial_graph to identify other non-Phase-3 trials studying 
+-- the exact same compound that is active in a late-stage Phase 3 trial.
+
+SELECT
+  *
+FROM
+  GRAPH_TABLE(
+    ${ref("clinical_trial_graph")}
+    MATCH (t1:Trial {Phase: 'Phase 3'})-[:TestsDrug]->(d:Drug)<-[:TestsDrug]-(t2:Trial)
+    WHERE t2.Phase != 'Phase 3'
+    COLUMNS (
+      d.drug_name AS compound_name,
+      t1.StudyTitle AS phase3_trial_title,
+      t2.StudyTitle AS other_phase_trial_title,
+      t2.Phase AS other_phase
+    )
+  )
