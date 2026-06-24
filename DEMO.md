@@ -31,7 +31,7 @@ Below are the key milestones where the agents collaborated to ensure clinical-gr
 | Clinical Question | Authored Pipeline (.sqlx) | Validation Query (BigQuery Agent) | Resolution & "Wow" Effect |
 | :--- | :--- | :--- | :--- |
 | *"Which companies sponsor Bomedemstat trials?"* | [`bomedemstat_sponsors.sqlx`](./definitions/bomedemstat_sponsors.sqlx) | `SELECT * FROM GRAPH_TABLE(...)` | **Zero-to-One**: Authored complex GQL without the team needing to learn Graph Query Language. Corrected case-sensitive labels (`TestsDrug`) via runtime feedback. |
-| *"Identify shared compounds in Phase 3 trials."* | [`phase3_multi_hop_traversal.sqlx`](./definitions/phase3_multi_hop_traversal.sqlx) | `MATCH (t1)-[:TestsDrug]->(d)<-[:TestsDrug]-(t2)` | **Multi-Hop Traversal**: Automated the mapping of repurposed drugs across different trial phases—a task that typically requires hours of manual SQL. |
+| *"Identify shared compounds in Phase 3 trials."* | [`phase3_multi_hop_traversal.sqlx`](./definitions/phase3_multi_hop_traversal.sqlx) | `MATCH (t1)-[:TestsDrug]->(d)<-[:TestsDrug]-(other:Trial)` | **Multi-Hop Traversal**: Automated the mapping of repurposed drugs across different trial phases—a task that typically requires hours of manual SQL. |
 
 ### 📊 Relational BI & AI Synthesis
 
@@ -39,6 +39,15 @@ Below are the key milestones where the agents collaborated to ensure clinical-gr
 | :--- | :--- | :--- | :--- |
 | *"Total targeted enrollment for Phase 3."* | [`phase3_targeted_enrollment.sqlx`](./definitions/phase3_targeted_enrollment.sqlx) | `SUM(Targeted_Enrollment) WHERE Phase LIKE '%Phase III%'` | **Blind Validation Fix**: The BigQuery Agent revealed that enrollment was being undercounted. Gemini CLI refined the filter to catch varied string formats (`Phase III`, `PHASE3`). |
 | *"Compare Bomedemstat trials in layman's terms."* | [`bomedemstat_layman_comparison.sqlx`](./definitions/bomedemstat_layman_comparison.sqlx) | `SELECT AI.GENERATE(...)` | **Full-Stack AI**: Combined vector search, graph paths, and Gemini 2.5 Flash synthesis into a single automated node. |
+
+---
+
+## 🛠️ Validation Artifacts
+
+To reproduce this blind validation process, refer to the following repository files:
+
+- **[VALIDATION_QUERIES.sql](./VALIDATION_QUERIES.sql)**: The complete set of 10 gold-standard queries used as the objective "Truth Source".
+- **[VALIDATION_JOURNEY.md](./VALIDATION_JOURNEY.md)**: The technical methodology documenting how we isolated the authoring agent from the validation agent to prove logical correctness.
 
 ---
 
