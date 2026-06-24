@@ -34,9 +34,35 @@ After deploying the 10 pipelines, we performed a blind validation against the "T
 
 ---
 
-## 🛠️ Validation Artifacts
+## 🛠️ Verification & Asset Inventory
 
-To reproduce this blind validation process, refer to the following repository files:
+### How to Verify Assets in BigQuery
+1. Open the **BigQuery Console**.
+2. Navigate to project `meridian-dev-455515` and dataset `joe_demo_test`.
+3. Run the following command to list all assets:
+   ```sql
+   SELECT table_name, table_type 
+   FROM joe_demo_test.INFORMATION_SCHEMA.TABLES;
+   ```
+
+### Created Assets Inventory
+| Table/View Name | Source Pipeline File | Description |
+| :--- | :--- | :--- |
+| `ClinicalTrialMasterData_flattened` | [Sources.js](./definitions/sources.js) | Flattened base table for Vector Search. |
+| `cancer_semantic_search` | [cancer_semantic_search.sqlx](./definitions/cancer_semantic_search.sqlx) | Cancer study semantic results. |
+| `metabolic_semantic_search` | [metabolic_semantic_search.sqlx](./definitions/metabolic_semantic_search.sqlx) | Metabolic study semantic results. |
+| `immunotherapy_hybrid_search`| [immunotherapy_hybrid_search.sqlx](./definitions/immunotherapy_hybrid_search.sqlx) | Hybrid MK-3475 oncology results. |
+| `astrazeneca_hybrid_search` | [astrazeneca_hybrid_search.sqlx](./definitions/astrazeneca_hybrid_search.sqlx) | AstraZeneca chronic disease study. |
+| `bomedemstat_sponsors` | [bomedemstat_sponsors.sqlx](./definitions/bomedemstat_sponsors.sqlx) | GQL: Drug-sponsor graph mapping. |
+| `phase3_multi_hop_traversal` | [phase3_multi_hop_traversal.sqlx](./definitions/phase3_multi_hop_traversal.sqlx) | GQL: Cross-trial drug pathing. |
+| `phase3_targeted_enrollment` | [phase3_targeted_enrollment.sqlx](./definitions/phase3_targeted_enrollment.sqlx) | Phase III enrollment aggregation. |
+| `top_active_sponsors` | [top_active_sponsors.sqlx](./definitions/top_active_sponsors.sqlx) | Sponsor volume ranking. |
+| `astrazeneca_eligibility` | [astrazeneca_eligibility.sqlx](./definitions/astrazeneca_eligibility_criteria.sqlx) | Eligibility criteria extraction. |
+| `bomedemstat_layman_comp` | [bomedemstat_layman_comparison.sqlx](./definitions/bomedemstat_layman_comparison.sqlx) | AI-synthesized trial summary. |
+
+---
+
+## 🛠️ Validation Artifacts
 
 - **[VALIDATION_QUERIES.sql](./VALIDATION_QUERIES.sql)**: The complete set of 10 gold-standard queries used as the objective "Truth Source".
 - **[VALIDATION_JOURNEY.md](./VALIDATION_JOURNEY.md)**: The technical methodology documenting the isolated validation loop.
@@ -58,5 +84,3 @@ This demonstration proves that by using **GEMINI CLI**, we achieved:
 - **8x Productivity**: 1 hour of active work vs. 8 hours of manual coding.
 - **Agent-First Governance**: The BigQuery Analytics Agent provided the "Truth," and the GEMINI CLI Agent provided the "Implementation."
 - **Autonomous Recovery**: The agents handled schema mismatches, engine limitations, and data inconsistencies without human intervention.
-
-> **"Your Data Team is no longer a bottleneck; they are the governors of a self-building analytics ecosystem."**
