@@ -85,6 +85,15 @@ npx @dataform/cli run
 
 ---
 
+## 📚 Reference Materials
+
+This project builds upon the foundational research and clinical trial dataset structures developed in the following repository:
+- [Google Cloud: Document Analytics on BigQuery](https://github.com/GoogleCloudPlatform/document-analytics-on-bigquery)
+
+This original work provided the clinical trial research framework, the multi-modal dataset schema, and the foundational analytical methodologies that were autonomously automated and scaled using the **Gemini CLI Agent**.
+
+---
+
 ## 💡 Engineering Retrospective
 
 This project was built using an **"Environment-Centric"** approach:
