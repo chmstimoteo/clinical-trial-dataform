@@ -1,6 +1,6 @@
 # Blind Validation Journey: Multi-Agent Process Documentation
 
-This document outlines the systematic, isolated process used to ensure the Dataform pipelines (authored by the Data Engineering Agent) match the clinical "Truth Source" (provided by the Conversational Analytics Agent).
+This document outlines the systematic, isolated process used to ensure the Dataform pipelines (authored by the Gemini CLI Agent) match the clinical "Truth Source" (provided by the Conversational Analytics Agent).
 
 ---
 
@@ -23,7 +23,7 @@ To ensure "Blind Validation," we enforced a strict separation between the **Auth
 
 ### Step 4: Comparison & Refinement Loop
 - **Row Count Comparison**: Initial checks revealed discrepancies in pipeline 7 (Enrollment).
-- **Semantic Alignment**: The Data Engineering Agent compared pipeline output vs. validation output.
+- **Semantic Alignment**: The Gemini CLI Agent compared pipeline output vs. validation output.
 - **Refinement**:
     - **Refinement 1 (Schema Mapping)**: Maps generic columns to actual names (e.g., `StudyTitle`).
     - **Refinement 2 (Logic Expansion)**: Pipeline 7 was updated to include broader string filters (`Phase III`, `PHASE3`) after comparing results against the gold standard.

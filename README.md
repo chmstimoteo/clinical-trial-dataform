@@ -1,6 +1,6 @@
 # Clinical Trials Intelligence Platform 🏥 🧬
 
-An autonomous clinical analytics platform featuring 10 multi-modal Dataform pipelines (Vector, Graph, AI), authored and validated in **record time (1h vs 8h)** by the **Gemini CLI Data Engineering Agent**.
+An autonomous clinical analytics platform featuring 10 multi-modal Dataform pipelines (Vector, Graph, AI), authored and validated in **record time (1h vs 8h)** by the **Gemini CLI Agent**.
 
 [![BigQuery](https://img.shields.io/badge/BigQuery-Ready-blue?logo=google-cloud&logoColor=white)](https://cloud.google.com/bigquery)
 [![Dataform](https://img.shields.io/badge/Dataform-v3.0+-green)](https://dataform.co/)
@@ -27,7 +27,7 @@ This repository demonstrates how to leverage **BigQuery's 2026 multi-modal engin
 | [`DOCUMENTATION.md`](./DOCUMENTATION.md) | **Technical Reference**: Architectural decisions and BigQuery engine learnings. |
 | [`DEMO.md`](./DEMO.md) | **Multi-Agent Demo**: Journey of agent collaboration and validation. |
 | [`DEPLOYMENT_GUIDE.md`](./DEPLOYMENT_GUIDE.md) | **Execution Guide**: Step-by-step instructions for local & cloud deployment. |
-| [`DATA_ENGINEERING_AGENT_BRIEFING.md`](./DATA_ENGINEERING_AGENT_BRIEFING.md) | **Strategic Briefing**: Documentation of the 8x productivity gain. |
+| [`GEMINI_CLI_AGENT_BRIEFING.md`](./GEMINI_CLI_AGENT_BRIEFING.md) | **Strategic Briefing**: Documentation of the 8x productivity gain. |
 | [`gemini-cli-plans/`](./gemini-cli-plans/) | **Implementation Plans**: The canonical plan file for reproduction. |
 
 ---
@@ -95,4 +95,4 @@ This project was built using an **"Environment-Centric"** approach:
 > **Impact**: 1 hour of Agent-First development vs. 8 hours of manual engineering.
 
 ---
-*Developed with ❤️ by the Gemini CLI Data Engineering Agent.*
+*Developed with ❤️ by the Gemini CLI Agent.*

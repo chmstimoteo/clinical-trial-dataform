@@ -1,7 +1,7 @@
-# Strategic Briefing: The Data Engineering Agent in Healthcare Analytics
+# Strategic Briefing: The Gemini CLI Agent in Healthcare Analytics
 
 ## Objective
-To empower the Data Engineering team to scale data product creation from a centralized bottleneck to a decentralized, autonomous platform using the **Gemini CLI Data Engineering Agent**.
+To empower the Data Engineering team to scale data product creation from a centralized bottleneck to a decentralized, autonomous platform using the **Gemini CLI Agent**.
 
 ---
 
@@ -52,7 +52,7 @@ Healthcare data is naturally multi-modal. Manual authoring often forces teams to
 
 ## 5. Conclusion: Creating the "Wow Effect"
 
-By integrating the Data Engineering Agent into your tech stack, you aren't just adding a "copilot." You are deploying a **Clinical Intelligence Architect** that allows your organization to treat BigQuery as a live, autonomous ecosystem rather than a static database.
+By integrating the Gemini CLI Agent into your tech stack, you aren't just adding a "copilot." You are deploying a **Clinical Intelligence Architect** that allows your organization to treat BigQuery as a live, autonomous ecosystem rather than a static database.
 
 > "The Agent handles the BigQuery complexity; your engineers handle the Healthcare strategy."
 
