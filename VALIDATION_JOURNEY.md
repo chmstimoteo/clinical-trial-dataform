@@ -9,7 +9,7 @@ This document outlines the systematic, isolated process used to ensure the Dataf
 To ensure "Blind Validation," we enforced a strict separation between the **Authoring Layer** and the **Verification Layer**.
 
 ### Step 1: Isolated Pipeline Authoring
-- The **Data Engineering Agent** analyzed the high-level clinical questions.
+- The **GEMINI CLI Agent** analyzed the high-level clinical questions.
 - It scaffolded the Dataform models (`.sqlx`) independently, without access to the gold-standard validation queries.
 - **Constraints Applied**: Mandatory schema flattening, embedding dimensional validation (`ARRAY_LENGTH = 768`), and native BigQuery function usage (`AI.EMBED`, `GRAPH_TABLE`).
 
