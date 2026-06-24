@@ -21,24 +21,24 @@ Below are the key milestones where the agents collaborated to ensure clinical-gr
 
 ### 🔍 Search Intelligence: Semantic & Hybrid
 
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (BigQuery Agent) | Resolution & "Wow" Effect |
+| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
 | :--- | :--- | :--- | :--- |
-| *"Find clinical trials studying treatments for cancer."* | [`cancer_semantic_search.sqlx`](./definitions/cancer_semantic_search.sqlx) | `SELECT base.StudyTitle FROM AI.SEARCH(...)` | **Agent Autonomy**: Gemini CLI identified that `VECTOR_SEARCH` requires a materialized table and autonomously built a flattened base layer to ensure execution. |
-| *"Find immunotherapy trials testing drug MK-3475."* | [`immunotherapy_hybrid_search.sqlx`](./definitions/immunotherapy_hybrid_search.sqlx) | `SELECT base.StudyTitle FROM AI.SEARCH(..., mode => 'hybrid')` | **Engine Mastery**: Gemini CLI implemented a hybrid pre-filter in Dataform that perfectly matched the BigQuery Agent's native hybrid mode results. |
+| *Cancer semantic search* | [`cancer_semantic_search.sqlx`](./definitions/cancer_semantic_search.sqlx) | `AI.SEARCH` | **Auto-Flattening**: Materialized a flattened view to bypass BigQuery nested-field constraints. |
+| *Immunotherapy hybrid* | [`immunotherapy_hybrid_search.sqlx`](./definitions/immunotherapy_hybrid_search.sqlx) | `AI.SEARCH` (Hybrid) | **Schema-Mapping**: Resolved hybrid lexical/semantic filters autonomously. |
 
 ### 🕸️ Graph Intelligence: Topological Discovery
 
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (BigQuery Agent) | Resolution & "Wow" Effect |
+| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
 | :--- | :--- | :--- | :--- |
-| *"Which companies sponsor Bomedemstat trials?"* | [`bomedemstat_sponsors.sqlx`](./definitions/bomedemstat_sponsors.sqlx) | `SELECT * FROM GRAPH_TABLE(...)` | **Zero-to-One**: Authored complex GQL without the team needing to learn Graph Query Language. Corrected case-sensitive labels (`TestsDrug`) via runtime feedback. |
-| *"Identify shared compounds in Phase 3 trials."* | [`phase3_multi_hop_traversal.sqlx`](./definitions/phase3_multi_hop_traversal.sqlx) | `MATCH (t1)-[:TestsDrug]->(d)<-[:TestsDrug]-(other:Trial)` | **Multi-Hop Traversal**: Automated the mapping of repurposed drugs across different trial phases—a task that typically requires hours of manual SQL. |
+| *Bomedemstat sponsors* | [`bomedemstat_sponsors.sqlx`](./definitions/bomedemstat_sponsors.sqlx) | `GRAPH_TABLE` | **Zero-Shot GQL**: Authored complex GQL patterns to traverse drug-sponsor links without training. |
+| *Drug repurposing paths* | [`phase3_multi_hop_traversal.sqlx`](./definitions/phase3_multi_hop_traversal.sqlx) | `GRAPH_TABLE` (Multi-hop) | **Multi-Hop Traversal**: Automates discovery of shared compounds across trial phases. |
 
 ### 📊 Relational BI & AI Synthesis
 
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (BigQuery Agent) | Resolution & "Wow" Effect |
+| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
 | :--- | :--- | :--- | :--- |
-| *"Total targeted enrollment for Phase 3."* | [`phase3_targeted_enrollment.sqlx`](./definitions/phase3_targeted_enrollment.sqlx) | `SUM(Targeted_Enrollment) WHERE Phase LIKE '%Phase III%'` | **Blind Validation Fix**: The BigQuery Agent revealed that enrollment was being undercounted. Gemini CLI refined the filter to catch varied string formats (`Phase III`, `PHASE3`). |
-| *"Compare Bomedemstat trials in layman's terms."* | [`bomedemstat_layman_comparison.sqlx`](./definitions/bomedemstat_layman_comparison.sqlx) | `SELECT AI.GENERATE(...)` | **Full-Stack AI**: Combined vector search, graph paths, and Gemini 2.5 Flash synthesis into a single automated node. |
+| *Phase 3 enrollment* | [`phase3_targeted_enrollment.sqlx`](./definitions/phase3_targeted_enrollment.sqlx) | `SUM(Targeted_Enrollment)` | **Blind Validation Fix**: Agent identified & fixed Phase string format mismatches autonomously. |
+| *AI layman synthesis* | [`bomedemstat_layman_comparison.sqlx`](./definitions/bomedemstat_layman_comparison.sqlx) | `AI.GENERATE` | **Full-Stack RAG**: Integrates vector search, graph paths, and generative insights in one node. |
 
 ---
 
