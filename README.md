@@ -25,9 +25,20 @@ This repository demonstrates how to leverage **BigQuery's 2026 multi-modal engin
 | :--- | :--- |
 | [`definitions/`](./definitions/) | Validated `.sqlx` models for all 10 analytical pipelines. |
 | [`DOCUMENTATION.md`](./DOCUMENTATION.md) | **Technical Reference**: Architectural decisions and BigQuery engine learnings. |
+| [`DEMO.md`](./DEMO.md) | **Multi-Agent Demo**: Journey of agent collaboration and validation. |
 | [`DEPLOYMENT_GUIDE.md`](./DEPLOYMENT_GUIDE.md) | **Execution Guide**: Step-by-step instructions for local & cloud deployment. |
 | [`DATA_ENGINEERING_AGENT_BRIEFING.md`](./DATA_ENGINEERING_AGENT_BRIEFING.md) | **Strategic Briefing**: Documentation of the 8x productivity gain. |
-| [`SCAFFOLDING_PLAN.md`](./SCAFFOLDING_PLAN.md) | **Audit Trail**: The implementation and "Blind Validation" journey. |
+| [`gemini-cli-plans/`](./gemini-cli-plans/) | **Implementation Plans**: The canonical plan file for reproduction. |
+
+---
+
+## ⚡ Reproduce this work with Gemini CLI
+You can autonomously reproduce this entire project using the Gemini CLI Agent:
+
+1. Launch the agent: `gemini`
+2. Instruct the agent to ingest the plan: 
+   > "Load the file `gemini-cli-plans/clinical-trials-dataform-scaffolding.md` and execute Phase 1."
+3. Follow the agent's prompts to compile, scaffold, and validate the pipelines phase-by-phase.
 
 ---
 
