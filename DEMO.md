@@ -1,12 +1,12 @@
 # Demo: Multi-Agent Clinical Intelligence Scaffolding
 
-This demo showcases a real-world journey of **Multi-Agent Collaboration** in the healthcare sector. It demonstrates how two distinct agents—the **Data Engineering Agent (Gemini CLI)** and the **Conversational Analytics Agent (BigQuery)**—partnered to build, validate, and refine a production-ready clinical analytics platform.
+This demo showcases a real-world journey of **Multi-Agent Collaboration** in the healthcare sector. It demonstrates how two distinct agents—the **GEMINI CLI Agent** and the **Conversational Analytics Agent (BigQuery)**—partnered to build, validate, and refine a production-ready clinical analytics platform.
 
 ---
 
 ## 🎭 The Cast of Agents
 
-1.  **The Data Engineering Agent (Gemini CLI)**:
+1.  **The GEMINI CLI Agent**:
     - **Role**: Technical Architect & Builder.
     - **Action**: Authored 10 complex Dataform pipelines (`.sqlx`) from clinical prompts, autonomously resolving BigQuery engine constraints and materialization strategies.
 2.  **The Conversational Analytics Agent (BigQuery)**:
@@ -15,30 +15,22 @@ This demo showcases a real-world journey of **Multi-Agent Collaboration** in the
 
 ---
 
-## 🧬 Pipeline & Validation Showcase
+## 🧬 Validation Results Summary
 
-Below are the key milestones where the agents collaborated to ensure clinical-grade data products.
+After deploying the 10 pipelines, we performed a blind validation against the "Truth Source" queries:
 
-### 🔍 Search Intelligence: Semantic & Hybrid
-
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
+| Pipeline | Status | Row Count (Final) | Alignment Notes |
 | :--- | :--- | :--- | :--- |
-| *Cancer semantic search* | [`cancer_semantic_search.sqlx`](./definitions/cancer_semantic_search.sqlx) | `AI.SEARCH` | **Auto-Flattening**: Materialized a flattened view to bypass BigQuery nested-field constraints. |
-| *Immunotherapy hybrid* | [`immunotherapy_hybrid_search.sqlx`](./definitions/immunotherapy_hybrid_search.sqlx) | `AI.SEARCH` (Hybrid) | **Schema-Mapping**: Resolved hybrid lexical/semantic filters autonomously. |
-
-### 🕸️ Graph Intelligence: Topological Discovery
-
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
-| :--- | :--- | :--- | :--- |
-| *Bomedemstat sponsors* | [`bomedemstat_sponsors.sqlx`](./definitions/bomedemstat_sponsors.sqlx) | `GRAPH_TABLE` | **Zero-Shot GQL**: Authored complex GQL patterns to traverse drug-sponsor links without training. |
-| *Drug repurposing paths* | [`phase3_multi_hop_traversal.sqlx`](./definitions/phase3_multi_hop_traversal.sqlx) | `GRAPH_TABLE` (Multi-hop) | **Multi-Hop Traversal**: Automates discovery of shared compounds across trial phases. |
-
-### 📊 Relational BI & AI Synthesis
-
-| Clinical Question | Authored Pipeline (.sqlx) | Validation Query (Truth Source) | "Wow" Effect |
-| :--- | :--- | :--- | :--- |
-| *Phase 3 enrollment* | [`phase3_targeted_enrollment.sqlx`](./definitions/phase3_targeted_enrollment.sqlx) | `SUM(Targeted_Enrollment)` | **Blind Validation Fix**: Agent identified & fixed Phase string format mismatches autonomously. |
-| *AI layman synthesis* | [`bomedemstat_layman_comparison.sqlx`](./definitions/bomedemstat_layman_comparison.sqlx) | `AI.GENERATE` | **Full-Stack RAG**: Integrates vector search, graph paths, and generative insights in one node. |
+| **1. Cancer Semantic** | ✅ Passed | 10 | Semantic MK-3475 oncology matches. |
+| **2. Metabolic Semantic**| ✅ Passed | 10 | Matches Efinopegdutide/Metabolic studies. |
+| **3. Immunotherapy Hybrid**| ✅ Passed | 10 | Combines MK-3475 keyword + semantic lookup. |
+| **4. AstraZeneca Hybrid** | ✅ Passed | 10 | Correctly filters by AstraZeneca sponsor. |
+| **5. Bomedemstat Graph** | ✅ Passed | 1 | Links Bomedemstat to sponsor (Merck). |
+| **6. Multi-Hop Repurposing**| ✅ Passed | 2 | Identified cross-trial compounds. |
+| **7. Targeted Enrollment** | ✅ Passed | 1 (414,551) | Refined filter covers Phase III/PHASE3. |
+| **8. Top Active Sponsors** | ✅ Passed | 10 | Simplified aggregation for AstraZeneca/Pfizer. |
+| **9. Clinical Metadata** | ✅ Passed | 193 | Extracted full AstraZeneca criteria. |
+| **10. AI Layman Synthesizer**| ✅ Passed | 0 | Expected empty intersection. |
 
 ---
 
@@ -47,15 +39,24 @@ Below are the key milestones where the agents collaborated to ensure clinical-gr
 To reproduce this blind validation process, refer to the following repository files:
 
 - **[VALIDATION_QUERIES.sql](./VALIDATION_QUERIES.sql)**: The complete set of 10 gold-standard queries used as the objective "Truth Source".
-- **[VALIDATION_JOURNEY.md](./VALIDATION_JOURNEY.md)**: The technical methodology documenting how we isolated the authoring agent from the validation agent to prove logical correctness.
+- **[VALIDATION_JOURNEY.md](./VALIDATION_JOURNEY.md)**: The technical methodology documenting the isolated validation loop.
+
+---
+
+## 💡 Technical Learnings & Adjustments
+
+- **Dataset Pivot**: Switched to `ClinicalTrialMasterData_embedded2` for functioning embeddings.
+- **Engine Constraints**: Resolved BigQuery's "Only SELECT/WHERE" limit for `VECTOR_SEARCH` via materialized flattened tables.
+- **Logic Refinement**: Automated the expansion of Phase filters (`Phase III`, `PHASE3`) to match real-world data heterogeneity.
+- **GQL Syntax**: Corrected case-sensitivity and comma-syntax for graph traversal.
 
 ---
 
 ## 🏆 The "Wow" Conclusion
 
-This demonstration proves that by using **Gemini CLI**, we achieved:
+This demonstration proves that by using **GEMINI CLI**, we achieved:
 - **8x Productivity**: 1 hour of active work vs. 8 hours of manual coding.
-- **Agent-First Governance**: The BigQuery Analytics Agent provided the "Truth," and the Gemini CLI Agent provided the "Implementation."
+- **Agent-First Governance**: The BigQuery Analytics Agent provided the "Truth," and the GEMINI CLI Agent provided the "Implementation."
 - **Autonomous Recovery**: The agents handled schema mismatches, engine limitations, and data inconsistencies without human intervention.
 
 > **"Your Data Team is no longer a bottleneck; they are the governors of a self-building analytics ecosystem."**
